@@ -1,0 +1,421 @@
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+local run = game:GetService("RunService")
+
+local Window = Rayfield:CreateWindow({
+    Name = "Best Flood Escape Classic Script",
+    LoadingTitle = "Flood Escape Classic",
+    LoadingSubtitle = "by Drastic",
+    ConfigurationSaving = {
+    Enabled = false,
+    FolderName = nil, -- Create a custom folder for your hub/game
+    FileName = "FEC"
+    },
+    Discord = {
+    Enabled = false,
+    Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD.
+    RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+    },
+    KeySystem = false, -- Set this to true to use our key system
+    KeySettings = {
+    Title = "FEC",
+    Subtitle = "Key System",
+    Note = "daz is cool ong",
+    FileName = "SiriusKey",
+    SaveKey = true,
+    GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+    Key = "Hello"
+    }
+})
+
+Rayfield:Notify({
+    Title = "Credits",
+    Content = "Made by daz out of boredom. will probably be open source lmfao",
+    Duration = 6.5,
+    Image = 4483362458,
+
+})
+
+local Tab = Window:CreateTab("AutoFarms", 4483362458) -- Title, Image
+local Section = Tab:CreateSection("Auto")
+
+local hardlift = game:GetService("Workspace").Hard.Entry.LiftEntryInfo.Info.Output
+local mediumlift = game:GetService("Workspace").Medium.Entry.LiftEntryInfo.Info.Output
+local easylift = game:GetService("Workspace").Easy.Entry.LiftEntryInfo.Info.Output
+local torso = game.Players.LocalPlayer.Character.Torso
+local Farm
+function autofarm()
+    if Farm == true then
+        if hardlift.Text == ("Game is Ready!" or "Round Beginning!") then
+            firetouchinterest(torso, hardlift.Parent.Parent.Parent.LiftEntry, 0)
+            wait()
+            firetouchinterest(torso, hardlift.Parent.Parent.Parent.LiftEntry, 1)
+            Rayfield:Notify({
+                Title = "Elevator Notification",
+                Content = "Entered Hard Elevator",
+                Duration = 6.5,
+                Image = 4483362458,
+            })
+            task.wait(7)
+            local hard = game:GetService("Workspace").Hard:WaitForChild("Main"):WaitForChild("Exit")
+
+            task.wait(1)
+            print("attempted exit")
+            firetouchinterest(torso, hard, 0)
+            wait(0.1)
+            firetouchinterest(torso, hard, 1)
+
+        elseif mediumlift.Text == ("Game is Ready!" or "Round Beginning!" or "The Game has Ended!") then
+            firetouchinterest(torso, mediumlift.Parent.Parent.Parent.LiftEntry, 0)
+            wait()
+            firetouchinterest(torso, mediumlift.Parent.Parent.Parent.LiftEntry, 1)
+            Rayfield:Notify({
+                Title = "Elevator Notification",
+                Content = "Entered Medium Elevator",
+                Duration = 6.5,
+                Image = 4483362458,
+            })
+            task.wait(7)
+            local medium = game:GetService("Workspace").Medium:WaitForChild("Main"):WaitForChild("Exit")
+
+
+            firetouchinterest(torso, medium, 0)
+            wait(0.1)
+            firetouchinterest(torso, medium, 1)
+        elseif easylift.Text == ("Game is Ready!" or "Round Beginning!" or "The Game has Ended!") then
+            firetouchinterest(torso, easylift.Parent.Parent.Parent.LiftEntry, 0)
+            wait()
+            firetouchinterest(torso, easylift.Parent.Parent.Parent.LiftEntry, 1)
+            Rayfield:Notify({
+                Title = "Elevator Notification",
+                Content = "Entered Easy Elevator",
+                Duration = 6.5,
+                Image = 4483362458,
+            })
+            task.wait(7)
+            local easy = game:GetService("Workspace").Easy:WaitForChild("Main"):WaitForChild("Exit")
+
+            firetouchinterest(torso, easy, 0)
+            wait(0.1)
+            firetouchinterest(torso, easy, 1)
+        end
+    else
+        print("farm disabled")
+    end
+end
+
+local Toggle = Tab:CreateToggle({Name = "Auto Farm HardMode",CurrentValue = false,Flag = "Toggle1", Callback = function(farming)
+    Farm = farming
+    local torso = game.Players.LocalPlayer.Character.Torso
+    if Farm == true then
+        Rayfield:Notify({
+            Title = "Autofarm is now running",
+            Content = "script will start finding available elevators!",
+            Duration = 6.5,
+            Image = 375691700,
+        })
+    else
+        Rayfield:Notify({
+            Title = "Autofarm has been disabled",
+            Content = "no longer looking for elevators!",
+            Duration = 6.5,
+            Image = 5078629701,
+        })
+    end
+
+    while Farm == true do
+        wait(0.1)
+        autofarm()
+    end
+end,
+})
+
+local Toggle = Tab:CreateToggle({Name = "Auto Press All Buttons",CurrentValue = false,Flag = "Toggle1", Callback = function(buttonpress)
+    local torso = game.Players.LocalPlayer.Character.Torso
+    if buttonpress == true then
+        Rayfield:Notify({
+            Title = "Auto press buttons is now enabled",
+            Content = "Script is now pressing all buttons.",
+            Duration = 6.5,
+            Image = 375691700,
+        
+        })
+    else
+        Rayfield:Notify({
+            Title = "Auto press buttons is now disabled",
+            Content = "Script is now ignoring all buttons.",
+            Duration = 6.5,
+            Image = 5078629701,
+        
+        })
+    end
+
+    while task.wait(1) do
+        if buttonpress == true then
+            for i, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+                if v.Name == "Button" then
+                    if buttonpress == true then
+                        print("pressed button")
+                        firetouchinterest(torso, v, 0)
+                        task.wait()
+                        firetouchinterest(torso, v, 1)                    
+                    else
+                        print("tried to press button but ButtonPress was disabled")
+                    end
+                end
+            end
+        end
+    end
+end,
+})
+
+local Toggle = Tab:CreateToggle({Name = "single-player auto complete",CurrentValue = false,Flag = "Toggle1", Callback = function(complete)
+    local torso = game.Players.LocalPlayer.Character.Torso
+    if complete == true then
+        Rayfield:Notify({
+            Title = "Auto Complete single-player is now enabled",
+            Content = "Script is now pressing all buttons.",
+            Duration = 6.5,
+            Image = 375691700,
+        })
+        --game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+    else
+        Rayfield:Notify({
+            Title = "Auto complete single-player is now disabled",
+            Content = "Script is now resetting.",
+            Duration = 6.5,
+            Image = 5078629701,
+        })
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+
+    end
+
+
+    local e = {}
+    while task.wait(1) do
+        if complete == true then
+            for i, v in pairs(game:GetService("Workspace").Camera.Singleplayer.Main:GetDescendants()) do
+                task.wait()
+                if v.Name == "Digital" then
+                    table.insert(e, v)
+                end
+            end
+            game.Players.LocalPlayer.Character.Torso.Position = e[3].Position
+        end
+    end
+end,
+})
+local Tab = Window:CreateTab("Cheats", 4483362458) -- Title, Image
+
+local Section = Tab:CreateSection("Character")
+
+local Slider = Tab:CreateSlider({
+    Name = "Walkspeed",
+    Range = {0, 100},
+    Increment = 1,
+    Suffix = "",
+    CurrentValue = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed,
+    Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+    end,
+})
+
+local Slider = Tab:CreateSlider({
+    Name = "JumpPower",
+    Range = {0, 100},
+    Increment = 1,
+    Suffix = "",
+    CurrentValue = game.Players.LocalPlayer.Character.Humanoid.JumpPower,
+    Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+    end,
+})
+
+local Section = Tab:CreateSection("InGame")
+local buttons = {}
+
+local Keybind = Tab:CreateKeybind({
+    Name = "Crack Code",
+    CurrentKeybind = "E",
+    HoldToInteract = false,
+    Flag = "Keybind1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Keybind)
+        local buttonpath = game:GetService("Workspace")
+        for i, v in pairs(buttonpath:GetDescendants()) do
+            if v:IsA("ClickDetector") then
+                table.insert(buttons, v)
+            end
+        end
+        for i = 1, 1000 do
+            task.wait()
+            fireclickdetector(buttons[math.random(1, #buttons)])
+        end
+    end,
+})
+
+
+local Section = Tab:CreateSection("Items")
+
+local Dropdown = Tab:CreateDropdown({
+    Name = "Get Items",
+    Options = {"FloodSword","WeakGravCoil","Dash", "Trophy", "BRAINSAW", "FloodShard"},
+    CurrentOption = "",
+    Flag = "Dropdown1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Option)
+        workspace.svcl_com.ShopExtra:FireServer(Option)
+    end,
+})
+
+--game:GetService("Workspace").Hard:WaitForChild("Main").CodeDoor:GetDescendants()
+
+
+
+function floodpoints()
+    local torso = game.Players.LocalPlayer.Character.Torso
+    local part = game:GetService("Workspace").Lobby.TrainingAgility
+    local tpblock = part:GetChildren()[4]
+    local codeblock = game:GetService("Workspace").Lobby.TrainingCode.Exit
+    firetouchinterest(torso, tpblock, 0)
+    task.wait()
+    firetouchinterest(torso, tpblock, 1)
+    wait()
+    firetouchinterest(torso, codeblock, 0)
+    task.wait()
+    firetouchinterest(torso, codeblock, 1)
+    game:GetService("Workspace")["svcl_com"].ConvertTP:FireServer()
+end
+
+local flooders
+
+local Toggle = Tab:CreateToggle({
+    Name = "inf flood points lol",
+    CurrentValue = false,
+    Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(bool)
+        flooders = bool
+        while wait() do
+            if flooders == true then
+                floodpoints()
+            end
+        end
+    end,
+})
+
+
+
+
+
+
+
+local Tab = Window:CreateTab("Fun", 4483362458) -- Title, Image
+--workspace:WaitForChild("Dramatic"):WaitForChild("Fall"):FireServer()
+
+local Section = Tab:CreateSection("Annoying")
+
+local Button = Tab:CreateButton({
+    Name = "Make Middle Glass Fall",
+    Callback = function()
+        workspace:WaitForChild("Dramatic"):WaitForChild("Fall"):FireServer()
+    end,
+})
+
+local id
+
+--[[local Input = Tab:CreateInput({
+    Name = "Input Example",
+    PlaceholderText = "sounds/uuhhh.wav",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(Text)
+        id = Text
+        local args = {[1] = 'rbxasset://' .. tostring(id)}
+        workspace:WaitForChild("svcl_com"):WaitForChild("ShopTaunt"):FireServer(unpack(args))
+    end,
+})]]
+
+local taunting
+
+local Toggle = Tab:CreateToggle({
+    Name = "Spam Taunt",
+    CurrentValue = false,
+    Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(bool)
+        taunting = bool
+        while wait(0.1) do
+            if taunting == true then
+                game:GetService("Workspace"):WaitForChild("svcl_com"):WaitForChild("Taunt"):FireServer()
+            end
+        end
+    end,
+})
+
+local Section = Tab:CreateSection("Funny Trolls")
+
+
+local amount = 10
+
+local Toggle = Tab:CreateToggle({
+    Name = "Crash Server",
+    CurrentValue = false,
+    Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(bool)
+        local character = game:GetService("Players").LocalPlayer.Character
+        local pack = game:GetService("Players").LocalPlayer.Backpack
+        local pos = character.Head.Position
+
+        Rayfield:Notify({
+            Title = "Server Crasher",
+            Content = "equip the nerf gun to crash the server.",
+            Duration = 10,
+            Image = "1231944373", --
+        
+        })
+
+    if bool == true then
+        workspace.svcl_com.ShopExtra:FireServer("BRAINSAW")
+        local r = pack:WaitForChild("BRAINSAW").Pew
+        while bool == true do
+            task.wait()
+            if bool == true then
+                if pack.BRAINSAW then
+                    for i = 1, amount, 1 do
+                        r:FireServer(pos)
+                    end
+                end
+            end
+        end
+    end
+
+
+    end,
+})
+
+local Section = Tab:CreateSection("Visual")
+
+local ColorPicker = Tab:CreateColorPicker({
+    Name = "Custom Water Colors",
+    Color = Color3.fromRGB(13, 105, 172),
+    Flag = "ColorPicker1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Color)
+        game:GetService("Players").LocalPlayer.Water.Value = Color
+    end
+})
+
+local Button = Tab:CreateButton({
+    Name = "Reset Water Color",
+    Callback = function()
+        ColorPicker:Set(Color3.fromRGB(13, 105, 172))
+        game:GetService("Players").LocalPlayer.Water.Value = Color3.fromRGB(13,105,172)
+    end,
+})
+
+--game:GetService("Workspace").Hard.Main.Water1
+local timer = 0
+local timersection = Tab:CreateSection("Script has been executed for: " .. timer .. " Seconds")
+while wait(1) do
+    timer = timer +1
+    timersection:Set("Script has been executed for: " .. timer .. " Seconds")
+end
+
+
+
