@@ -29,7 +29,7 @@ local Window = Rayfield:CreateWindow({
 
 Rayfield:Notify({
     Title = "Credits",
-    Content = "Made by daz out of boredom. will probably be open source lmfao",
+    Content = "Created by daz. Credits to tomato for the server crasher.",
     Duration = 6.5,
     Image = 4483362458,
 
@@ -45,65 +45,68 @@ local torso = game.Players.LocalPlayer.Character.Torso
 local Farm
 function autofarm()
     if Farm == true then
-        if hardlift.Text == ("Game is Ready!" or "Round Beginning!") then
-            firetouchinterest(torso, hardlift.Parent.Parent.Parent.LiftEntry, 0)
-            wait()
-            firetouchinterest(torso, hardlift.Parent.Parent.Parent.LiftEntry, 1)
-            Rayfield:Notify({
-                Title = "Elevator Notification",
-                Content = "Entered Hard Elevator",
-                Duration = 6.5,
-                Image = 4483362458,
-            })
-            task.wait(7)
-            local hard = game:GetService("Workspace").Hard:WaitForChild("Main"):WaitForChild("Exit")
-
+        if game:GetService("Players")["daz_real"].Ingame.Value == 0 then
             task.wait(1)
-            print("attempted exit")
-            firetouchinterest(torso, hard, 0)
-            wait(0.1)
-            firetouchinterest(torso, hard, 1)
+            if hardlift.Text == ("Game is Ready!" or "Round Beginning!") then
+                firetouchinterest(torso, hardlift.Parent.Parent.Parent.LiftEntry, 0)
+                wait()
+                firetouchinterest(torso, hardlift.Parent.Parent.Parent.LiftEntry, 1)
+                Rayfield:Notify({
+                    Title = "Elevator Notification",
+                    Content = "Entered Hard Elevator",
+                    Duration = 6.5,
+                    Image = 4483362458,
+                })
+                task.wait(7)
+                local hard = game:GetService("Workspace").Hard:WaitForChild("Main"):WaitForChild("Exit")
 
-        elseif mediumlift.Text == ("Game is Ready!" or "Round Beginning!" or "The Game has Ended!") then
-            firetouchinterest(torso, mediumlift.Parent.Parent.Parent.LiftEntry, 0)
-            wait()
-            firetouchinterest(torso, mediumlift.Parent.Parent.Parent.LiftEntry, 1)
-            Rayfield:Notify({
-                Title = "Elevator Notification",
-                Content = "Entered Medium Elevator",
-                Duration = 6.5,
-                Image = 4483362458,
-            })
-            task.wait(7)
-            local medium = game:GetService("Workspace").Medium:WaitForChild("Main"):WaitForChild("Exit")
+                task.wait(1)
+                print("attempted exit")
+                firetouchinterest(torso, hard, 0)
+                wait(0.1)
+                firetouchinterest(torso, hard, 1)
+
+            elseif mediumlift.Text == ("Game is Ready!" or "Round Beginning!" or "The Game has Ended!") then
+                firetouchinterest(torso, mediumlift.Parent.Parent.Parent.LiftEntry, 0)
+                wait()
+                firetouchinterest(torso, mediumlift.Parent.Parent.Parent.LiftEntry, 1)
+                Rayfield:Notify({
+                    Title = "Elevator Notification",
+                    Content = "Entered Medium Elevator",
+                    Duration = 6.5,
+                    Image = 4483362458,
+                })
+                task.wait(7)
+                local medium = game:GetService("Workspace").Medium:WaitForChild("Main"):WaitForChild("Exit")
 
 
-            firetouchinterest(torso, medium, 0)
-            wait(0.1)
-            firetouchinterest(torso, medium, 1)
-        elseif easylift.Text == ("Game is Ready!" or "Round Beginning!" or "The Game has Ended!") then
-            firetouchinterest(torso, easylift.Parent.Parent.Parent.LiftEntry, 0)
-            wait()
-            firetouchinterest(torso, easylift.Parent.Parent.Parent.LiftEntry, 1)
-            Rayfield:Notify({
-                Title = "Elevator Notification",
-                Content = "Entered Easy Elevator",
-                Duration = 6.5,
-                Image = 4483362458,
-            })
-            task.wait(7)
-            local easy = game:GetService("Workspace").Easy:WaitForChild("Main"):WaitForChild("Exit")
+                firetouchinterest(torso, medium, 0)
+                wait(0.1)
+                firetouchinterest(torso, medium, 1)
+            elseif easylift.Text == ("Game is Ready!" or "Round Beginning!" or "The Game has Ended!") then
+                firetouchinterest(torso, easylift.Parent.Parent.Parent.LiftEntry, 0)
+                wait()
+                firetouchinterest(torso, easylift.Parent.Parent.Parent.LiftEntry, 1)
+                Rayfield:Notify({
+                    Title = "Elevator Notification",
+                    Content = "Entered Easy Elevator",
+                    Duration = 6.5,
+                    Image = 4483362458,
+                })
+                task.wait(7)
+                local easy = game:GetService("Workspace").Easy:WaitForChild("Main"):WaitForChild("Exit")
 
-            firetouchinterest(torso, easy, 0)
-            wait(0.1)
-            firetouchinterest(torso, easy, 1)
+                firetouchinterest(torso, easy, 0)
+                wait(0.1)
+                firetouchinterest(torso, easy, 1)
+            end
+        else
+            print("farm disabled")
         end
-    else
-        print("farm disabled")
     end
 end
 
-local Toggle = Tab:CreateToggle({Name = "Auto Farm HardMode",CurrentValue = false,Flag = "Toggle1", Callback = function(farming)
+local Toggle = Tab:CreateToggle({Name = "Auto Farm Wins",CurrentValue = false,Flag = "Toggle1", Callback = function(farming)
     Farm = farming
     local torso = game.Players.LocalPlayer.Character.Torso
     if Farm == true then
@@ -129,6 +132,17 @@ local Toggle = Tab:CreateToggle({Name = "Auto Farm HardMode",CurrentValue = fals
 end,
 })
 
+function presser()
+    for i, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+        if v.Name == "Button" then
+            print("pressed button")
+            firetouchinterest(torso, v, 0)
+            task.wait()
+            firetouchinterest(torso, v, 1)                    
+        end    
+    end
+end
+
 local Toggle = Tab:CreateToggle({Name = "Auto Press All Buttons",CurrentValue = false,Flag = "Toggle1", Callback = function(buttonpress)
     local torso = game.Players.LocalPlayer.Character.Torso
     if buttonpress == true then
@@ -149,27 +163,18 @@ local Toggle = Tab:CreateToggle({Name = "Auto Press All Buttons",CurrentValue = 
         })
     end
 
-    while task.wait(1) do
-        if buttonpress == true then
-            for i, v in pairs(game:GetService("Workspace"):GetDescendants()) do
-                if v.Name == "Button" then
-                    if buttonpress == true then
-                        print("pressed button")
-                        firetouchinterest(torso, v, 0)
-                        task.wait()
-                        firetouchinterest(torso, v, 1)                    
-                    else
-                        print("tried to press button but ButtonPress was disabled")
-                    end
-                end
-            end
-        end
+    while buttonpress == true do
+        presser()
+        task.wait(1)
     end
 end,
 })
 
 local Toggle = Tab:CreateToggle({Name = "single-player auto complete",CurrentValue = false,Flag = "Toggle1", Callback = function(complete)
-    local torso = game.Players.LocalPlayer.Character.Torso
+    local TweenService = game:GetService("TweenService")
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("HumanoidRootPart")
     if complete == true then
         Rayfield:Notify({
             Title = "Auto Complete single-player is now enabled",
@@ -177,7 +182,6 @@ local Toggle = Tab:CreateToggle({Name = "single-player auto complete",CurrentVal
             Duration = 6.5,
             Image = 375691700,
         })
-        --game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
     else
         Rayfield:Notify({
             Title = "Auto complete single-player is now disabled",
@@ -185,22 +189,30 @@ local Toggle = Tab:CreateToggle({Name = "single-player auto complete",CurrentVal
             Duration = 6.5,
             Image = 5078629701,
         })
-        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
-
+        game.Players.LocalPlayer.Character.Humanoid.Health = 0
     end
-
-
+    
     local e = {}
-    while task.wait(1) do
-        if complete == true then
+    while complete == true do 
+    task.wait(0.5)
             for i, v in pairs(game:GetService("Workspace").Camera.Singleplayer.Main:GetDescendants()) do
-                task.wait()
                 if v.Name == "Digital" then
-                    table.insert(e, v)
+                    table.insert(e,v)
                 end
             end
-            game.Players.LocalPlayer.Character.Torso.Position = e[3].Position
-        end
+            task.wait()
+            local part = e[3] -- replace with the part you want to tween to
+                    
+            local tweenInfo = TweenInfo.new(
+                0.05, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, 0, false, 0 -- delay before starting the tween
+            )
+            
+            local goal = {}
+            goal.CFrame = part.CFrame
+            
+            local tween = TweenService:Create(humanoid, tweenInfo, goal)
+            tween:Play()  
+
     end
 end,
 })
@@ -235,6 +247,33 @@ local Slider = Tab:CreateSlider({
 local Section = Tab:CreateSection("InGame")
 local buttons = {}
 
+local Toggle = Tab:CreateToggle({Name = "GodMode",CurrentValue = false,Flag = "Toggle1", Callback = function(delete)
+    local torso = game.Players.LocalPlayer.Character.Torso
+    if delete == true then
+        Rayfield:Notify({
+            Title = "GodMode is now enabled",
+            Content = "you are now invincible in extreme mode!",
+            Duration = 6.5,
+            Image = 375691700,
+        })
+        game:GetService("ReplicatedStorage").Extreme.Air.Check.Disabled = true
+        for i, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+            if v.Name == ("Water1" or "Water2" or "Water3" or "Water4") then
+                v.TouchInterest:Destroy()
+            end
+        end
+    else
+        Rayfield:Notify({
+            Title = "GodMode is now disabled",
+            Content = "No longer immune.",
+            Duration = 6.5,
+            Image = 5078629701,
+        })
+        game:GetService("ReplicatedStorage").Extreme.Air.Check.Disabled = false
+    end
+end,
+})
+
 local Keybind = Tab:CreateKeybind({
     Name = "Crack Code",
     CurrentKeybind = "E",
@@ -251,6 +290,7 @@ local Keybind = Tab:CreateKeybind({
             task.wait()
             fireclickdetector(buttons[math.random(1, #buttons)])
         end
+        table.clear(buttons)
     end,
 })
 
@@ -288,17 +328,18 @@ end
 
 local flooders
 
-local Toggle = Tab:CreateToggle({
+local Toggle = Tab:CreateButton({
     Name = "inf flood points lol",
-    CurrentValue = false,
-    Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Flag = "Toggle1",
     Callback = function(bool)
-        flooders = bool
-        while wait() do
-            if flooders == true then
-                floodpoints()
-            end
-        end
+        local args = {
+            [1] = 10e5,
+            [2] = 10e5,
+            [3] = 10e5
+        }
+        
+        workspace:WaitForChild("svcl_com"):WaitForChild("PromptSum"):FireServer(unpack(args))
+        
     end,
 })
 
