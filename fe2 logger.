@@ -1,0 +1,142 @@
+function sendwebhook(title, message, color, thumbnail, footer)
+    syn.request{
+        Url = webhook;
+        Method = 'POST';
+        Headers = {
+            ['Content-Type'] = 'application/json';
+        };
+        Body = game:GetService('HttpService'):JSONEncode({
+            ['username'] = game.Players.LocalPlayer.Name;
+            ['content'] = "";
+            ['embeds'] = {{
+                ['title'] = title;
+                ['description'] = message;
+                ['color'] = color;
+                ['thumbnail'] = {
+                    ['url'] = thumbnail
+                };
+                ['footer'] = {
+                    ['text'] = footer;
+                };
+            }};
+        })
+    };    
+end
+
+sendwebhook('Starting webhook session for: ' .. game.Players.LocalPlayer.DisplayName, "you will now start recieving webhooks.", 0x161f6d, 'https://art.pixilart.com/74d4efb5bf1d7d2.png', "Sent at " .. os.date("%I:%M %p"))
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/ImMejor35/Flood-GUI/main/Flood%20GUI%20v3"))()
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+Players.Humanoid:Destroy()
+wait(5)
+game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("AddedWaiting"):FireServer()
+
+local currencies = {
+    ['runs'] = {
+        ['gems'] = LocalPlayer.PlayerGui.MenuGui.Goals.Window.Content.Pages.LastGame.RewardBar.Content.GemAward.Amount.Text,
+        ['coins'] = LocalPlayer.PlayerGui.MenuGui.Goals.Window.Content.Pages.LastGame.RewardBar.Content.CoinAward.Amount.Text,
+        ['xp'] = LocalPlayer.PlayerGui.MenuGui.Goals.Window.Content.Pages.LastGame.RewardBar.XpAmount.Text,
+        ['maps'] = LocalPlayer.PlayerGui.MenuGui.Goals.Window.Content.Pages.LastGame.RewardBar.Content.MapsEscaped.Amount.Text
+    },
+    ['total'] = {
+        ['gems'] = 0,
+        ['coins'] = 0,
+        ['xp'] = 0,
+        ['maps'] = 0
+    },
+    ['mapname'] = nil
+}
+
+local function players()
+    local playersinserver = {}
+    for i, v in pairs(game.Players:GetChildren()) do
+        table.insert(playersinserver, tostring(v))
+    end
+    return playersinserver
+end
+
+local function onCharacterRemoving(character)
+    wait(3)
+    
+    game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("AddedWaiting"):FireServer()
+
+    currencies['runs']['gems'] = LocalPlayer.PlayerGui.MenuGui.Goals.Window.Content.Pages.LastGame.RewardBar.Content.GemAward.Amount.Text
+    currencies['runs']['coins'] = LocalPlayer.PlayerGui.MenuGui.Goals.Window.Content.Pages.LastGame.RewardBar.Content.CoinAward.Amount.Text
+    currencies['runs']['xp'] = LocalPlayer.PlayerGui.MenuGui.Goals.Window.Content.Pages.LastGame.RewardBar.XpAmount.Text
+    currencies['runs']['maps'] = LocalPlayer.PlayerGui.MenuGui.Goals.Window.Content.Pages.LastGame.RewardBar.Content.MapsEscaped.Amount.Text
+    currencies['total']['gems'] = tonumber(currencies['runs']['gems']) + tonumber(currencies['total']['gems'])
+    currencies['total']['coins'] = tonumber(currencies['runs']['coins']) + tonumber(currencies['total']['coins'])
+    currencies['total']['maps'] = tonumber(currencies['runs']['maps']) + tonumber(currencies['total']['maps'])
+
+    local players = players()
+    local color = 0x5a00a8 -- You should define a color value here
+    local xplvl = LocalPlayer.PlayerGui.GameGui.HUD.Main.GameStats.Stats.XPStats.Icon.Info.Text
+    local xpinfo = LocalPlayer.PlayerGui.GameGui.HUD.Main.GameStats.Stats.XPStats.XP.Text
+
+    syn.request{
+        Url = webhook;
+        Method = 'POST';
+        Headers = {
+            ['Content-Type'] = 'application/json';
+        };
+        Body = game:GetService('HttpService'):JSONEncode({
+            ['username'] = game.Players.LocalPlayer.Name;
+            ['content'] = "" ;
+            ['embeds'] = {{
+                ['title'] = game.Players.LocalPlayer.DisplayName .. " has died :(";
+                ['description'] = "";
+                ['thumbnail'] = {
+                    ['url'] = "https://images-ext-2.discordapp.net/external/i_9l_JNSfZDyHg2Vm-nz6n6gOclxPlBJVaNdOcsQ3UE/%3Fsize%3D4096/https/cdn.discordapp.com/icons/1004832188103151647/63ddf943410b5c7808d6e79f64c45735.png",
+                },
+                ['color'] = color;
+                ['fields'] = {
+                    {
+                        ['name'] = 'Currencies gained';
+                        ['value'] = '<:FloodGem:406580588137545748> ' .. currencies['runs']['gems'] .. '\n' .. '<:CoinF:749410094780776548> ' .. currencies['runs']['coins'] .. '\n' .. '<:Xp:940396948337332274> ' .. currencies['runs']['xp'] .. '\n' .. '<:FloodExit:1092190384051978400> ' .. currencies['runs']['maps'];
+                        ['inline'] = false;
+                    },
+                    {
+                        ['name'] = 'Currencies gained in this session';
+                        ['value'] = '<:FloodGem:406580588137545748> ' .. currencies['total']['gems'] .. '\n' .. '<:CoinF:749410094780776548> ' .. currencies['total']['coins'] .. '\n' .. '<:FloodExit:1092190384051978400> ' .. currencies['total']['maps'] .. '\n' .. '<:Xp:940396948337332274> ' .. 'You are currently level: ' .. xplvl .. ' and have ' .. xpinfo;
+                        ['inline'] = false;
+                    },
+                    {
+                        ['name'] = 'Other players in server';
+                        ['value'] = table.concat(players, ", ");
+                        ['inline'] = true;
+                    },
+                };
+                ['footer'] = {
+                    --['text'] = 'died on ' ..  .." • Sent at " .. os.date("%I:%M %p");
+                };
+            }};
+        })
+    };
+    table.clear(players)
+end
+
+wait(10)
+
+--[[getgenv().alived = false
+function survived()
+    currencies['mapname'] = tostring(game:GetService("Workspace").Lobby.GameInfo.SurfaceGui.Frame.MapName.Text)
+    for i, v in pairs(workspace:GetDescendants()) do
+        if v.Name == "ExitBlock" then
+            v.Touched:Connect(function()
+                if alived == false then
+                    alived = true
+                    sendwebhook('Escaped map: ' .. currencies['mapname'], 'New map starting in 20 seconds.', 0x00d4bb, 'https://tr.rbxcdn.com/112aeb978a5034c774e63becf73487f4/420/420/Image/Png', "Sent at " .. os.date("%I:%M %p"))
+                    wait(20)
+                    alived = false
+                    survived()
+                end
+            end)
+        end
+    end
+end
+survived()]]
+
+LocalPlayer.CharacterRemoving:Connect(onCharacterRemoving)
+warn("Will give error until you enter a map!")
