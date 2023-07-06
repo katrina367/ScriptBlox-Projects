@@ -1,4 +1,4 @@
-local DiscordWebhook = "https://discord.com/api/webhooks/1126557678483816480/IX41pxYLygNL2PsMoEdtofzrQCY_WYmOSFQ--TUprW14AKFBHFS7oBueg0cdzJPmywGx"
+local DiscordWebhook
 local WebhookColor = 0x00d4bb
 
 local HttpService = game:GetService('HttpService')
