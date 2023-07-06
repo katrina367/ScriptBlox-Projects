@@ -97,11 +97,8 @@ local function SendNewMapInfo(map)
     end
 	
     task.wait(5)
-    if Workspace.Multiplayer.Map:FindFirstChild("_Rescue") then
-        plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_Rescue").Contact.CFrame)
-    elseif Workspace.Multiplayer.Map:FindFirstChild("_LostPage") then
-        plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_LostPage").CFrame)
-    end
+
+
 
 	SendHttpsRequest({
         ['username'] = plr.Name;
@@ -122,6 +119,15 @@ local function SendNewMapInfo(map)
             };
         }}
     })
+end
+
+for i = 1,2 do
+    if Workspace.Multiplayer.Map:FindFirstChild("_Rescue") then
+        plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_Rescue").Contact.CFrame)
+    elseif Workspace.Multiplayer.Map:FindFirstChild("_LostPage") then
+        plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_LostPage").CFrame)
+    end
+    task.wait(5)
 end
 
 Workspace.Multiplayer.ChildAdded:Connect(SendNewMapInfo)
