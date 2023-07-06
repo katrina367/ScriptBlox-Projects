@@ -45,9 +45,9 @@ local function SendHttpsStats()
         ['embeds'] = {{
             ['title'] = plr.DisplayName .. " has died:";
             ['description'] = "";
-            ['thumbnail'] = {
-                ['url'] = 'https://images-ext-2.discordapp.net/external/L5bbIIPtqxKWOBJTKwYsuqyNiQqRCXsi4Z9S8NQJs9c/https/art.pixilart.com/74d4efb5bf1d7d2.png?width=671&height=671'
-            };
+            --['thumbnail'] = {
+            --    ['url'] = 'https://images-ext-2.discordapp.net/external/L5bbIIPtqxKWOBJTKwYsuqyNiQqRCXsi4Z9S8NQJs9c/https/art.pixilart.com/74d4efb5bf1d7d2.png?width=671&height=671'
+            --};
             ['color'] = WebhookColor;
             ['fields'] = {
                 {
@@ -110,9 +110,9 @@ local function SendNewMapInfo(map)
         ['embeds'] = {{
             ['title'] = 'A new map has Started';
             ['description'] = MapName;
-            ['thumbnail'] = {
-                ['url'] = 'https://images-ext-2.discordapp.net/external/L5bbIIPtqxKWOBJTKwYsuqyNiQqRCXsi4Z9S8NQJs9c/https/art.pixilart.com/74d4efb5bf1d7d2.png?width=671&height=671'
-            };
+            --['thumbnail'] = {
+            --    ['url'] = 'https://images-ext-2.discordapp.net/external/L5bbIIPtqxKWOBJTKwYsuqyNiQqRCXsi4Z9S8NQJs9c/https/art.pixilart.com/74d4efb5bf1d7d2.png?width=671&height=671'
+            --};
             ['color'] = WebhookColor;
             ['fields'] = {
                 {
