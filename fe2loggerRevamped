@@ -1,0 +1,127 @@
+local DiscordWebhook = "https://discord.com/api/webhooks/1126557678483816480/IX41pxYLygNL2PsMoEdtofzrQCY_WYmOSFQ--TUprW14AKFBHFS7oBueg0cdzJPmywGx"
+local WebhookColor = 0x00d4bb
+
+local HttpService = game:GetService('HttpService')
+local Players = game:GetService("Players")
+local plr = Players.LocalPlayer
+local PS = game:GetService("PathfindingService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Workspace = game:GetService('Workspace')
+
+local Amounts_Path = plr.PlayerGui.MenuGui.Goals.Window.Content.Pages.LastGame.RewardBar.Content
+local GEM_PATH = Amounts_Path.GemAward.Amount
+local COIN_PATH = Amounts_Path.CoinAward.Amount
+local XP_PATH = plr.PlayerGui.MenuGui.Goals.Window.Content.Pages.LastGame.RewardBar.XpAmount
+local ESCAPED_PATH = Amounts_Path.MapsEscaped.Amount
+
+local GEMS = 0
+local COINS = 0
+local XP = 0
+local ESCAPED = 0
+
+local Door = game.Workspace.Lobby.PlayHere
+
+
+local function SendHttpsRequest(body)
+	http.request {
+		Url = DiscordWebhook;
+        Method = 'POST';
+        Headers = {
+            ['Content-Type'] = 'application/json';
+        };
+        Body = HttpService:JSONEncode(body)
+	}
+end
+
+local function SendHttpsStats()
+    GEMS += tonumber(GEM_PATH.Text)
+    COINS += tonumber(COIN_PATH.Text)
+    XP += string.gsub(XP_PATH.Text, "XP", "", 1)
+    ESCAPED += tonumber(ESCAPED_PATH.Text)
+
+	SendHttpsRequest({
+        ['username'] = plr.Name;
+        ['content'] = "" ;
+        ['embeds'] = {{
+            ['title'] = plr.DisplayName .. " has died:";
+            ['description'] = "";
+            ['thumbnail'] = {
+                ['url'] = 'https://images-ext-2.discordapp.net/external/L5bbIIPtqxKWOBJTKwYsuqyNiQqRCXsi4Z9S8NQJs9c/https/art.pixilart.com/74d4efb5bf1d7d2.png?width=671&height=671'
+            };
+            ['color'] = WebhookColor;
+            ['fields'] = {
+                {
+                    ['name'] = 'Currencies gained';
+                    ['value'] = '<:FloodGem:406580588137545748> ' .. GEM_PATH.Text .. '\n' .. '<:CoinF:749410094780776548> ' .. COIN_PATH.Text .. '\n' .. '<:Xp:940396948337332274> ' .. XP_PATH.Text .. '\n' .. '<:FloodExit:1092190384051978400> ' .. ESCAPED_PATH.Text;
+                    ['inline'] = false;
+                };
+                {
+                    ['name'] = 'Currencies gained in this session';
+                    ['value'] = '<:FloodGem:406580588137545748> ' .. GEMS .. '\n' .. '<:CoinF:749410094780776548> ' .. COINS .. '\n' .. '<:Xp:940396948337332274> ' .. XP .. '\n' .. '<:FloodExit:1092190384051978400> ' .. ESCAPED;
+                    ['inline'] = false;
+                };
+            };
+        }}
+    })
+end
+
+plr.CharacterAdded:Connect(function(char)
+    task.wait(3)
+	local path = PS:CreatePath()
+	local p = path:ComputeAsync(char.HumanoidRootPart.Position, Door.Position)
+	local waypoints = path:GetWaypoints()
+	for i, v in ipairs(waypoints) do
+		local part = Instance.new('Part')
+		part.Position = v.Position
+		part.Size = Vector3.new(1,1,1)
+		part.Anchored = true
+		part.CanCollide = false
+		part.Parent = char
+		char.Humanoid:MoveTo(v.Position)
+		char.Humanoid.MoveToFinished:Wait()
+		part:Destroy()
+	end
+	char.HumanoidRootPart.CFrame = Door.CFrame * CFrame.new(0,0,2)
+    SendHttpsStats()
+end)
+
+loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/ImMejor35/Flood-GUI/main/loader.lua")"testing"
+
+local function SendNewMapInfo(map)
+	task.wait(4)
+    local Settings = Workspace.Multiplayer.Map.Settings
+    local MapName = Settings.MapName.Value
+    local Mirrored = false
+    if Settings:FindFirstChild("_MirrorMap") then
+        if Settings:FindFirstChild("_MirrorMap").Value ~= nil then Mirrored = true end
+    end
+	
+    task.wait(5)
+    if Workspace.Multiplayer.Map:FindFirstChild("_Rescue") then
+        plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_Rescue").Contact.CFrame)
+    elseif Workspace.Multiplayer.Map:FindFirstChild("_LostPage") then
+        plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_LostPage").CFrame)
+    end
+
+	SendHttpsRequest({
+        ['username'] = plr.Name;
+        ['content'] = "" ;
+        ['embeds'] = {{
+            ['title'] = 'A new map has Started';
+            ['description'] = MapName;
+            ['thumbnail'] = {
+                ['url'] = 'https://images-ext-2.discordapp.net/external/L5bbIIPtqxKWOBJTKwYsuqyNiQqRCXsi4Z9S8NQJs9c/https/art.pixilart.com/74d4efb5bf1d7d2.png?width=671&height=671'
+            };
+            ['color'] = WebhookColor;
+            ['fields'] = {
+                {
+                    ['name'] = 'Map Stats';
+                    ['value'] = '⭐ Difficulty |    ' .. Settings.Difficulty.Value .. '\n' .. '🪞 Mirrored |    ' .. tostring(Mirrored) .. '\n' ..  '🏛️ Part Count |    ' .. Settings.AssetCount.Value;
+                    ['inline'] = false;
+                };
+            };
+        }}
+    })
+end
+
+Workspace.Multiplayer.ChildAdded:Connect(SendNewMapInfo)
