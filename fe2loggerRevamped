@@ -1,4 +1,3 @@
-local DiscordWebhook
 local WebhookColor = 0x00d4bb
 
 local HttpService = game:GetService('HttpService')
