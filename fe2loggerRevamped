@@ -1,4 +1,4 @@
-local WebhookColor = 0x00d4bb
+local WebhookColor = 0x8800ff
 
 local HttpService = game:GetService('HttpService')
 local Players = game:GetService("Players")
