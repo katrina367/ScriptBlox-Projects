@@ -84,7 +84,7 @@ plr.CharacterAdded:Connect(function(char)
     SendHttpsStats()
 end)
 
-loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/ImMejor35/Flood-GUI/main/loader.lua")"testing"
+loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/ImMejor35/Flood-GUI/main/loader.lua")"main"
 
 local function SendNewMapInfo(map)
 	task.wait(4)
