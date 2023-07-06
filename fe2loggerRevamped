@@ -96,9 +96,7 @@ local function SendNewMapInfo(map)
         if val.Value ~= nil then Mirrored = true end
     end
 	
-    task.wait(5)
-
-
+    task.wait(8)
 
 	SendHttpsRequest({
         ['username'] = plr.Name;
@@ -119,15 +117,17 @@ local function SendNewMapInfo(map)
             };
         }}
     })
+
+    for i = 1,2 do
+        if Workspace.Multiplayer.Map:FindFirstChild("_Rescue") then
+            plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_Rescue").Contact.CFrame)
+        elseif Workspace.Multiplayer.Map:FindFirstChild("_LostPage") then
+            plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_LostPage").CFrame)
+        end
+        task.wait(5)
+    end
 end
 
-for i = 1,2 do
-    if Workspace.Multiplayer.Map:FindFirstChild("_Rescue") then
-        plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_Rescue").Contact.CFrame)
-    elseif Workspace.Multiplayer.Map:FindFirstChild("_LostPage") then
-        plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_LostPage").CFrame)
-    end
-    task.wait(5)
-end
+
 
 Workspace.Multiplayer.ChildAdded:Connect(SendNewMapInfo)
