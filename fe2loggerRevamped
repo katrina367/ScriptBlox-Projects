@@ -92,8 +92,9 @@ local function SendNewMapInfo(map)
     local Settings = Workspace.Multiplayer.Map.Settings
     local MapName = Settings.MapName.Value
     local Mirrored = false
-    if Settings:FindFirstChild("_MirrorMap") then
-        if Settings:FindFirstChild("_MirrorMap").Value ~= nil then Mirrored = true end
+    local val = Settings:FindFirstChild("_MirrorMap")
+    if val then
+        if val.Value ~= nil then Mirrored = true end
     end
 	
     task.wait(5)
@@ -116,7 +117,7 @@ local function SendNewMapInfo(map)
             ['fields'] = {
                 {
                     ['name'] = 'Map Stats';
-                    ['value'] = '⭐ Difficulty |    ' .. Settings.Difficulty.Value .. '\n' .. '🪞 Mirrored |    ' .. tostring(Mirrored) .. '\n' ..  '🏛️ Part Count |    ' .. Settings.AssetCount.Value;
+                    ['value'] = '⭐ Difficulty | ' .. Settings.Difficulty.Value .. '\n' .. '🪞 Mirrored | ' .. tostring(Mirrored) .. '\n' ..  '🏛️ Part Count | ' .. Settings.AssetCount.Value;
                     ['inline'] = false;
                 };
             };
