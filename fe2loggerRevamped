@@ -22,7 +22,7 @@ local Door = game.Workspace.Lobby.PlayHere
 
 
 local function SendHttpsRequest(body)
-    if DiscordWebhook ~= false or nil then
+    if DiscordWebhook ~= false then
         http.request {
             Url = DiscordWebhook;
             Method = 'POST';
