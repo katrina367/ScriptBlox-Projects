@@ -90,8 +90,8 @@ local function FindCollectibles(map)
         if child.Name == "_Rescue" then
             FoundEscapee = true
             task.wait(4)
-            repeat plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_Rescue").Contact.CFrame)
-                task.wait(2)
+            repeat task.wait(2)
+                plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_Rescue").Contact.CFrame)
             until not Workspace.Multiplayer.Map:FindFirstChild("_Rescue")
             
             SendHttpsRequest({
@@ -107,8 +107,8 @@ local function FindCollectibles(map)
             FoundPage = true 
             task.wait(4)
             
-            repeat plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_LostPage").CFrame)
-                task.wait(2)
+            repeat task.wait(2)
+                plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_LostPage").CFrame)
             until not Workspace.Multiplayer.Map:FindFirstChild("_LostPage")
             
             SendHttpsRequest({
@@ -134,7 +134,7 @@ local function SendNewMapInfo(map)
     
     if FindMirrorObject then print("found mirrored object") if FindMirrorObject.Value ~= nil then Mirrored = true end end
 
-    task.wait(3)
+    task.wait(1)
 
 	SendHttpsRequest({
         ['username'] = plr.Name;
