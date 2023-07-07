@@ -146,7 +146,7 @@ local function SendNewMapInfo(map)
             ['fields'] = {
                 {
                     ['name'] = 'Map Stats';
-                    ['value'] = '⭐ Difficulty | ' .. Settings.Difficulty.Value .. '\n' .. '🪞 Mirrored | ' .. tostring(Mirrored) .. '\n' ..  '🏊‍♂️ Escapee | ' .. FoundEscapee .. '\n' .. '📔 Lost Page | ' .. FoundPage .. '\n' .. '🏛️ Part Count | ' .. Settings.AssetCount.Value;
+                    ['value'] = '⭐ Difficulty | ' .. Settings.Difficulty.Value .. '\n' .. '🪞 Mirrored | ' .. tostring(Mirrored) .. '\n' ..  '🏊‍♂️ Escapee | ' .. tostring(FoundEscapee) .. '\n' .. '📔 Lost Page | ' .. tostring(FoundPage) .. '\n' .. '🏛️ Part Count | ' .. Settings.AssetCount.Value;
                     ['inline'] = false;
                 };
             };
