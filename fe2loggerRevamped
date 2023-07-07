@@ -62,7 +62,9 @@ local function SendHttpsStats()
                     ['inline'] = false;
                 };
             };
-            ['footer'] = "Drastic FE2 Logger • " .. os.date("%I:%M %p")
+            ['footer'] = {
+                ['text'] = "Drastic FE2 Logger • " .. os.date("%I:%M %p")
+            }
         }}
     })
 end
@@ -153,7 +155,9 @@ local function SendNewMapInfo(map)
                     ['inline'] = false;
                 };
             };
-            ['footer'] = "Drastic FE2 Logger • " .. os.date("%I:%M %p")
+            ['footer'] = {
+                ['text'] = "Drastic FE2 Logger • " .. os.date("%I:%M %p")
+            }
         }}
     })
     task.wait(1)
