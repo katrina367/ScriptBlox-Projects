@@ -92,7 +92,7 @@ local function FindCollectibles(map)
             task.wait(4)
             repeat plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_Rescue").Contact.CFrame)
                 task.wait()
-            until #Workspace.Multiplayer.Map:FindFirstChild("_Rescue"):GetChildren() == 0
+            until not Workspace.Multiplayer.Map:FindFirstChild("_Rescue").Contact
             
             SendHttpsRequest({
                 ['username'] = plr.Name;
@@ -109,7 +109,7 @@ local function FindCollectibles(map)
             
             repeat plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_LostPage").CFrame)
                 task.wait()
-            until #Workspace.Multiplayer.Map:FindFirstChild("_LostPage"):GetChildren() == 0
+            until not Workspace.Multiplayer.Map:FindFirstChild("_LostPage")
             
             SendHttpsRequest({
                 ['username'] = plr.Name;
