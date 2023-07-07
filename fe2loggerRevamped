@@ -1,10 +1,11 @@
 local WebhookColor = 0x8800ff
 
 local Players = game:GetService("Players")
-local plr = Players.LocalPlayer
 local PS = game:GetService("PathfindingService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService('Workspace')
+
+local plr = Players.LocalPlayer
 
 local Amounts_Path = plr.PlayerGui.MenuGui.Goals.Window.Content.Pages.LastGame.RewardBar.Content
 local GEM_PATH = Amounts_Path.GemAward.Amount
@@ -108,6 +109,7 @@ local function FindCollectibles(map)
             repeat plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_LostPage").CFrame)
                 task.wait()
             until #Workspace.Multiplayer.Map:FindFirstChild("_LostPage"):GetChildren() == 0
+            
             SendHttpsRequest({
                 ['username'] = plr.Name;
                 ['content'] = "" ;
@@ -129,7 +131,7 @@ local function SendNewMapInfo(map)
     local Mirrored = false
     local FindMirrorObject = Settings:FindFirstChild("_MirrorMap")
     
-    if FindMirrorObject then if FindMirrorObject.Value ~= nil then Mirrored = true end end
+    if FindMirrorObject then print("found mirrored object") if FindMirrorObject.Value ~= nil then Mirrored = true end end
 
     task.wait(3)
 
@@ -152,6 +154,7 @@ local function SendNewMapInfo(map)
             };
         }}
     })
+    task.wait(1)
     FoundEscapee, FoundPage = false,false
 end
 
