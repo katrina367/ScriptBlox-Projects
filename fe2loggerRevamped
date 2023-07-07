@@ -1,6 +1,5 @@
 local WebhookColor = 0x8800ff
 
-local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local plr = Players.LocalPlayer
 local PS = game:GetService("PathfindingService")
@@ -138,8 +137,8 @@ local function SendNewMapInfo(map)
         ['username'] = plr.Name;
         ['content'] = "" ;
         ['embeds'] = {{
-            ['title'] = 'A new map has Started';
-            ['description'] = MapName;
+            ['title'] = 'Now Playing: ' .. MapName;
+            ['description'] = '';
             ['thumbnail'] = {
                 ['url'] = 'https://images-ext-2.discordapp.net/external/L5bbIIPtqxKWOBJTKwYsuqyNiQqRCXsi4Z9S8NQJs9c/https/art.pixilart.com/74d4efb5bf1d7d2.png?width=671&height=671'
             };
