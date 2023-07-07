@@ -127,11 +127,8 @@ local function SendNewMapInfo(map)
                 ['username'] = plr.Name;
                 ['content'] = "" ;
                 ['embeds'] = {{
-                    ['title'] = '<:Man_face:1106641446825644164> | Escapee Obtained!';
+                    ['title'] = '🏊‍♂️ | Escapee Obtained!';
                     ['description'] = '';
-                    ['thumbnail'] = {
-                        ['url'] = 'https://images-ext-2.discordapp.net/external/L5bbIIPtqxKWOBJTKwYsuqyNiQqRCXsi4Z9S8NQJs9c/https/art.pixilart.com/74d4efb5bf1d7d2.png?width=671&height=671'
-                    };
                     ['color'] = WebhookColor;
                 }}
             })
@@ -142,11 +139,8 @@ local function SendNewMapInfo(map)
                 ['username'] = plr.Name;
                 ['content'] = "" ;
                 ['embeds'] = {{
-                    ['title'] = 'Lost Page Obtained!';
+                    ['title'] = '📔 | Lost Page Obtained!';
                     ['description'] = '';
-                    ['thumbnail'] = {
-                        ['url'] = 'https://images-ext-2.discordapp.net/external/L5bbIIPtqxKWOBJTKwYsuqyNiQqRCXsi4Z9S8NQJs9c/https/art.pixilart.com/74d4efb5bf1d7d2.png?width=671&height=671'
-                    };
                     ['color'] = WebhookColor;
                 }}
             })
