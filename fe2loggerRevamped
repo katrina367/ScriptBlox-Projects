@@ -1,5 +1,6 @@
 local WebhookColor = 0x8800ff
 
+local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local PS = game:GetService("PathfindingService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
