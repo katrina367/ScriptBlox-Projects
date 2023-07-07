@@ -1,6 +1,5 @@
 local WebhookColor = 0x8800ff
 
-local HttpService = game:GetService('HttpService')
 local Players = game:GetService("Players")
 local plr = Players.LocalPlayer
 local PS = game:GetService("PathfindingService")
@@ -72,15 +71,8 @@ plr.CharacterAdded:Connect(function(char)
 	local p = path:ComputeAsync(char.HumanoidRootPart.Position, Door.Position)
 	local waypoints = path:GetWaypoints()
 	for i, v in ipairs(waypoints) do
-		local part = Instance.new('Part')
-		part.Position = v.Position
-		part.Size = Vector3.new(1,1,1)
-		part.Anchored = true
-		part.CanCollide = false
-		part.Parent = char
 		char.Humanoid:MoveTo(v.Position)
 		char.Humanoid.MoveToFinished:Wait()
-		part:Destroy()
 	end
 	char.HumanoidRootPart.CFrame = Door.CFrame * CFrame.new(0,0,2)
     SendHttpsStats()
@@ -88,17 +80,58 @@ end)
 
 loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/ImMejor35/Flood-GUI/main/loader.lua")"main"
 
+local FoundEscapee = false
+local FoundPage = false
+
+local function FindCollectibles(map)
+    map.ChildAdded:Connect(function(child)
+        if child.Name == "_Rescue" then
+            FoundEscapee = true
+            task.wait(4)
+            repeat plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_Rescue").Contact.CFrame)
+                task.wait()
+            until #Workspace.Multiplayer.Map:FindFirstChild("_Rescue"):GetChildren() == 0
+            
+            SendHttpsRequest({
+                ['username'] = plr.Name;
+                ['content'] = "" ;
+                ['embeds'] = {{
+                    ['title'] = '🏊‍♂️ | Escapee Obtained!';
+                    ['description'] = '';
+                    ['color'] = WebhookColor;
+                }}
+            })
+        elseif child.Name == "_LostPage" then
+            FoundPage = true 
+            task.wait(4)
+            
+            repeat plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_LostPage").CFrame)
+                task.wait()
+            until #Workspace.Multiplayer.Map:FindFirstChild("_LostPage"):GetChildren() == 0
+            SendHttpsRequest({
+                ['username'] = plr.Name;
+                ['content'] = "" ;
+                ['embeds'] = {{
+                    ['title'] = '📔 | Lost Page Obtained!';
+                    ['description'] = '';
+                    ['color'] = WebhookColor;
+                }}
+            })
+        end
+    end)
+end
+
 local function SendNewMapInfo(map)
+    coroutine.wrap(FindCollectibles)(map)
 	task.wait(4)
     local Settings = Workspace.Multiplayer.Map.Settings
     local MapName = Settings.MapName.Value
     local Mirrored = false
-    local val = Settings:FindFirstChild("_MirrorMap")
-    if val then
-        if val.Value ~= nil then Mirrored = true end
-    end
-	
-    task.wait(8)
+    local FindMirrorObject = Settings:FindFirstChild("_MirrorMap")
+    
+    if FindMirrorObject then if FindMirrorObject.Value ~= nil then Mirrored = true end end
+
+    task.wait(3)
 
 	SendHttpsRequest({
         ['username'] = plr.Name;
@@ -113,42 +146,13 @@ local function SendNewMapInfo(map)
             ['fields'] = {
                 {
                     ['name'] = 'Map Stats';
-                    ['value'] = '⭐ Difficulty | ' .. Settings.Difficulty.Value .. '\n' .. '🪞 Mirrored | ' .. tostring(Mirrored) .. '\n' ..  '🏛️ Part Count | ' .. Settings.AssetCount.Value;
+                    ['value'] = '⭐ Difficulty | ' .. Settings.Difficulty.Value .. '\n' .. '🪞 Mirrored | ' .. tostring(Mirrored) .. '\n' ..  '🏊‍♂️ Escapee | ' .. FoundEscapee .. '\n' .. '📔 Lost Page | ' .. FoundPage .. '\n' .. '🏛️ Part Count | ' .. Settings.AssetCount.Value;
                     ['inline'] = false;
                 };
             };
         }}
     })
-
-    for i = 1,2 do
-        if Workspace.Multiplayer.Map:FindFirstChild("_Rescue") then
-            plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_Rescue").Contact.CFrame)
-            SendHttpsRequest({
-                ['username'] = plr.Name;
-                ['content'] = "" ;
-                ['embeds'] = {{
-                    ['title'] = '🏊‍♂️ | Escapee Obtained!';
-                    ['description'] = '';
-                    ['color'] = WebhookColor;
-                }}
-            })
-
-        elseif Workspace.Multiplayer.Map:FindFirstChild("_LostPage") then
-            plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_LostPage").CFrame)
-            SendHttpsRequest({
-                ['username'] = plr.Name;
-                ['content'] = "" ;
-                ['embeds'] = {{
-                    ['title'] = '📔 | Lost Page Obtained!';
-                    ['description'] = '';
-                    ['color'] = WebhookColor;
-                }}
-            })
-        end
-        task.wait(5)
-    end
+    FoundEscapee, FoundPage = false,false
 end
-
-
 
 Workspace.Multiplayer.ChildAdded:Connect(SendNewMapInfo)
