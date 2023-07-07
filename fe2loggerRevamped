@@ -62,7 +62,9 @@ local function SendHttpsStats()
                     ['inline'] = false;
                 };
             };
-
+            ['footer'] = {
+                ['text'] = "Drastic FE2 Logger • " .. os.date("%I:%M %p")
+            }
         }}
     })
 end
@@ -132,7 +134,7 @@ local function SendNewMapInfo(map)
     local Mirrored = false
     local FindMirrorObject = Settings:FindFirstChild("_MirrorMap")
 
-    if not FindMirrorObject then Mirrored = trueend
+    if not FindMirrorObject then Mirrored = true end
 
     task.wait(1)
 
@@ -153,6 +155,9 @@ local function SendNewMapInfo(map)
                     ['inline'] = false;
                 };
             };
+            ['footer'] = {
+                ['text'] = "Drastic FE2 Logger • " .. os.date("%I:%M %p")
+            }
         }}
     })
     task.wait(1)
