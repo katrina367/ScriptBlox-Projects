@@ -21,7 +21,6 @@ local ESCAPED = 0
 
 local Door = game.Workspace.Lobby.PlayHere
 
-
 local function SendHttpsRequest(body)
     if DiscordWebhook ~= false then
         http.request {
@@ -50,7 +49,7 @@ local function SendHttpsStats()
             ['thumbnail'] = {
                 ['url'] = 'https://images-ext-2.discordapp.net/external/L5bbIIPtqxKWOBJTKwYsuqyNiQqRCXsi4Z9S8NQJs9c/https/art.pixilart.com/74d4efb5bf1d7d2.png?width=671&height=671'
             };
-            ['color'] = WebhookColor;
+            ['color'] = 0xc5041f;
             ['fields'] = {
                 {
                     ['name'] = 'Currencies gained';
@@ -63,6 +62,7 @@ local function SendHttpsStats()
                     ['inline'] = false;
                 };
             };
+            ['footer'] = "Drastic FE2 Logger • " .. os.date("%I:%M %p")
         }}
     })
 end
@@ -100,7 +100,7 @@ local function FindCollectibles(map)
                 ['embeds'] = {{
                     ['title'] = '🏊‍♂️ | Escapee Obtained!';
                     ['description'] = '';
-                    ['color'] = WebhookColor;
+                    ['color'] = 0x00a0b9;
                 }}
             })
         elseif child.Name == "_LostPage" then
@@ -117,7 +117,7 @@ local function FindCollectibles(map)
                 ['embeds'] = {{
                     ['title'] = '📔 | Lost Page Obtained!';
                     ['description'] = '';
-                    ['color'] = WebhookColor;
+                    ['color'] = 0x00a0b9;
                 }}
             })
         end
@@ -131,8 +131,8 @@ local function SendNewMapInfo(map)
     local MapName = Settings.MapName.Value
     local Mirrored = false
     local FindMirrorObject = Settings:FindFirstChild("_MirrorMap")
-    
-    if FindMirrorObject then print("found mirrored object") if FindMirrorObject.Value ~= nil then Mirrored = true end end
+
+    if not FindMirrorObject then Mirrored = trueend
 
     task.wait(1)
 
@@ -153,6 +153,7 @@ local function SendNewMapInfo(map)
                     ['inline'] = false;
                 };
             };
+            ['footer'] = "Drastic FE2 Logger • " .. os.date("%I:%M %p")
         }}
     })
     task.wait(1)
