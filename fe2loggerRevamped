@@ -22,14 +22,16 @@ local Door = game.Workspace.Lobby.PlayHere
 
 
 local function SendHttpsRequest(body)
-	http.request {
-		Url = DiscordWebhook;
-        Method = 'POST';
-        Headers = {
-            ['Content-Type'] = 'application/json';
-        };
-        Body = HttpService:JSONEncode(body)
-	}
+    if DiscordWebhook ~= false or nil then
+        http.request {
+            Url = DiscordWebhook;
+            Method = 'POST';
+            Headers = {
+                ['Content-Type'] = 'application/json';
+            };
+            Body = HttpService:JSONEncode(body)
+        }
+    end
 end
 
 local function SendHttpsStats()
@@ -121,8 +123,33 @@ local function SendNewMapInfo(map)
     for i = 1,2 do
         if Workspace.Multiplayer.Map:FindFirstChild("_Rescue") then
             plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_Rescue").Contact.CFrame)
+            SendHttpsRequest({
+                ['username'] = plr.Name;
+                ['content'] = "" ;
+                ['embeds'] = {{
+                    ['title'] = '<:Man_face:1106641446825644164> | Escapee Obtained!';
+                    ['description'] = ;
+                    ['thumbnail'] = {
+                        ['url'] = 'https://images-ext-2.discordapp.net/external/L5bbIIPtqxKWOBJTKwYsuqyNiQqRCXsi4Z9S8NQJs9c/https/art.pixilart.com/74d4efb5bf1d7d2.png?width=671&height=671'
+                    };
+                    ['color'] = WebhookColor;
+                }}
+            })
+
         elseif Workspace.Multiplayer.Map:FindFirstChild("_LostPage") then
             plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_LostPage").CFrame)
+            SendHttpsRequest({
+                ['username'] = plr.Name;
+                ['content'] = "" ;
+                ['embeds'] = {{
+                    ['title'] = 'Lost Page Obtained!';
+                    ['description'] = ;
+                    ['thumbnail'] = {
+                        ['url'] = 'https://images-ext-2.discordapp.net/external/L5bbIIPtqxKWOBJTKwYsuqyNiQqRCXsi4Z9S8NQJs9c/https/art.pixilart.com/74d4efb5bf1d7d2.png?width=671&height=671'
+                    };
+                    ['color'] = WebhookColor;
+                }}
+            })
         end
         task.wait(5)
     end
