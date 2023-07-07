@@ -92,7 +92,7 @@ local function FindCollectibles(map)
             task.wait(4)
             repeat plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_Rescue").Contact.CFrame)
                 task.wait(2)
-            until not Workspace.Multiplayer.Map:FindFirstChild("_Rescue"):FindFirstChild("Contact")
+            until not Workspace.Multiplayer.Map:FindFirstChild("_Rescue")
             
             SendHttpsRequest({
                 ['username'] = plr.Name;
