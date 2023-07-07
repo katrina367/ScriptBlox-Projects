@@ -5,6 +5,7 @@ local Players = game:GetService("Players")
 local PS = game:GetService("PathfindingService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService('Workspace')
+local TweenService = game:GetService("TweenService")
 
 local plr = Players.LocalPlayer
 
@@ -91,9 +92,13 @@ local function FindCollectibles(map)
     map.ChildAdded:Connect(function(child)
         if child.Name == "_Rescue" then
             FoundEscapee = true
-            task.wait(4)
-            repeat task.wait(2)
-                plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_Rescue").Contact.CFrame)
+            task.wait(6.5)
+            local info = Tweeninfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, 0, true, 0)
+            local Tween = TweenService:Create(plr.Character.PrimaryPart, info, {CFrame = child.Contact.CFrame})
+            -- plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_Rescue").Contact.CFrame)
+            repeat 
+                Tween:Play()
+                task.wait(2)
             until not Workspace.Multiplayer.Map:FindFirstChild("_Rescue")
             
             SendHttpsRequest({
@@ -107,10 +112,12 @@ local function FindCollectibles(map)
             })
         elseif child.Name == "_LostPage" then
             FoundPage = true 
-            task.wait(4)
-            
-            repeat task.wait(2)
-                plr.Character:SetPrimaryPartCFrame(Workspace.Multiplayer.Map:FindFirstChild("_LostPage").CFrame)
+            task.wait(6.5)
+            local info = Tweeninfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, 0, true, 0)
+            local Tween = TweenService:Create(plr.Character.PrimaryPart, info, {CFrame = child.CFrame})
+            repeat 
+                Tween:Play()
+                task.wait(2)
             until not Workspace.Multiplayer.Map:FindFirstChild("_LostPage")
             
             SendHttpsRequest({
