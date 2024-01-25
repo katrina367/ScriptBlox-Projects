@@ -26,6 +26,7 @@ end
 sendwebhook('Starting webhook session for: ' .. game.Players.LocalPlayer.DisplayName, "you will now start recieving webhooks.", 0x161f6d, 'https://art.pixilart.com/74d4efb5bf1d7d2.png', "Sent at " .. os.date("%I:%M %p"))
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/ImMejor35/Flood-GUI/main/Flood%20GUI%20v3"))()
+local request = loadstring(game:GetObjects("rbxassetid://15900013841")[1].Source)()
 
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
